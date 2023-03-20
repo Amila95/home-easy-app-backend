@@ -1,5 +1,6 @@
 package com.Adinz.HomeEasyApp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,6 @@ public class BillTypes {
 
     //oneToMany
     @OneToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "billTypes")
+    @JsonIgnore
     private List<BillValues> billValuesList = new ArrayList<>();
 }
