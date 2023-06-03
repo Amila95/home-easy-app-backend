@@ -2,6 +2,7 @@ package com.Adinz.HomeEasyApp.Controllers;
 
 import com.Adinz.HomeEasyApp.Model.BillTypes;
 import com.Adinz.HomeEasyApp.Model.BillValues;
+import com.Adinz.HomeEasyApp.PalyLoad.BillValueRequest;
 import com.Adinz.HomeEasyApp.Services.BillValuesServices;
 import com.Adinz.HomeEasyApp.Services.MapValidationErrorService;
 import jakarta.validation.Valid;
@@ -21,18 +22,18 @@ public class BillValuesController {
     @Autowired
     BillValuesServices billValuesServices;
 
-    @PostMapping("/{billType_id}")
-    public ResponseEntity<?> addBillValue(@Valid @RequestBody BillValues billValues, BindingResult result, @PathVariable String billType_id ){
+    @PostMapping
+    public ResponseEntity<?> addBillValue(@Valid @RequestBody BillValueRequest billValues, BindingResult result ){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null) return errorMap;
 
-        BillValues billValue = billValuesServices.addBillValues(billValues,billType_id);
+        BillValues billValue = billValuesServices.addBillValues(billValues);
         return new ResponseEntity<BillValues>(billValue,HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<?> GetBillValues(){
-        return new ResponseEntity(billValuesServices.addBillValues(), HttpStatus.OK);
+    @GetMapping("/{billType_id}")
+    public ResponseEntity<?> GetBillValues(@PathVariable String billValue_id){
+        return new ResponseEntity(billValuesServices.getBillValues(billValue_id), HttpStatus.OK);
     }
 
     @PatchMapping("/{billValue_id}")

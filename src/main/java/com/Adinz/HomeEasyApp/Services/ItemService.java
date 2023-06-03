@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -36,7 +37,7 @@ public class ItemService {
     }
 
     public Iterable<Item> findAllItem(){
-        return itemRepository.findAll();
+        return itemRepository.findByPickup(false);
     }
 
     public void deleteItem(String Id){
@@ -56,11 +57,16 @@ public class ItemService {
         if (!item.isPresent()) {
             throw new ProjectIDException("cannot find the item " + id+ ".");
         }
+
         Item item1 = item.get();
         item1.setName(request.getName());
         item1.setQuantity(request.getQuantity());
         item1.setStatus(request.getStatus());
         item1.setShop(request.getShop());
+        if(request.isPickup()){
+            item1.setPickup(true);
+            item1.setPickup_At(new Date());
+        }
         return itemRepository.save(item1);
 
 

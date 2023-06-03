@@ -2,6 +2,7 @@ package com.Adinz.HomeEasyApp.Services;
 
 import com.Adinz.HomeEasyApp.Model.BillTypes;
 import com.Adinz.HomeEasyApp.Model.BillValues;
+import com.Adinz.HomeEasyApp.PalyLoad.BillValueRequest;
 import com.Adinz.HomeEasyApp.Repositories.BillTypesRepository;
 import com.Adinz.HomeEasyApp.Repositories.BillValuesRepository;
 import com.Adinz.HomeEasyApp.exceptions.BillTypeNotFoundException;
@@ -18,18 +19,20 @@ public class BillValuesServices {
     @Autowired
     BillTypesRepository billTypesRepository;
 
-    public List<BillValues> addBillValues(){
-        return billValuesRepository.findAll();
-    }
 
-    public BillValues addBillValues(BillValues billValues, String billTypeId){
-        Long id = Long.parseLong(billTypeId);
+    public BillValues addBillValues(BillValueRequest billValuesRequest){
+        Long id = Long.parseLong(billValuesRequest.getId());
 
         Optional<BillTypes> billTypes = billTypesRepository.findById(id);
         if(!billTypes.isPresent()){
             throw new BillTypeNotFoundException("BillType not found");
         }
+        BillValues billValues = new BillValues();
         billValues.setBillTypes(billTypes.get());
+        //billValues.setId(billValues.getId());
+        billValues.setValues(billValuesRequest.getValues());
+        billValues.setMonth(billValuesRequest.getMonth());
+        billValues.setPayDate(billValues.getPayDate());
         return billValuesRepository.save(billValues);
 
 

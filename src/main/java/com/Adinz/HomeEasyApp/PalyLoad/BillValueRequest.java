@@ -6,15 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemRequest {
-    @NotBlank(message= "Item name is requried")
-    private String name;
-    private String quantity;
-    private String status;
-    private String shop;
-    private boolean pickup;
+public class BillValueRequest {
+    private String id;
+    private String values;
+    private boolean status;
+    private String month;
+    private Date payDate;
 }
