@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,6 +70,20 @@ public class ItemService {
         }
         return itemRepository.save(item1);
 
+
+    }
+
+    public void deleteItems(List<Item> items) {
+        for(Item item: items){
+            itemRepository.delete(item);
+        }
+    }
+
+    public void updateItems(List<Item> items) {
+        for(Item item: items){
+            item.setPickup(true);
+            itemRepository.save(item);
+        }
 
     }
 }

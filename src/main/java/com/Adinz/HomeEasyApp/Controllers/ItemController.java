@@ -60,12 +60,25 @@ public class ItemController {
         return new ResponseEntity<String>("Item with ID "+ItemId+ "was deleted", HttpStatus.OK );
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deleteItems(@RequestBody List<Item> items){
+        System.out.println("deleteItems");
+        itemService.deleteItems(items);
+        return new ResponseEntity<String>("Items deleted successfully", HttpStatus.OK );
+    }
+
     @PutMapping("/{ItemId}")
     public ResponseEntity<?> updateItemID(@Valid @RequestBody ItemRequest request, @PathVariable String ItemId,BindingResult result) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null) return errorMap;
         Item item = itemService.updateItem(ItemId,request);
         return new ResponseEntity<Item>(item, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateItems(@RequestBody List<Item> items,BindingResult result) {
+        itemService.updateItems(items);
+        return new ResponseEntity<String>("Items update successfully", HttpStatus.CREATED);
     }
 
 
