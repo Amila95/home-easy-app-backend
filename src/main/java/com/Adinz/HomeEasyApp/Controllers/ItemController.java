@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/item")
+@CrossOrigin
 public class ItemController {
     @Autowired
     ItemService itemService;
