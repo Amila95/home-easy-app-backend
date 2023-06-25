@@ -18,12 +18,21 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     public Item saveOrUpdateItem(ItemRequest request){
-        Item item = new Item();
-        item.setName(request.getName());
-        item.setQuantity(request.getQuantity());
-        item.setStatus(request.getStatus());
-        item.setShop(request.getShop());
-        return itemRepository.save(item);
+        Optional<Item> item1 = itemRepository.findByName(request.getName());
+        if(!item1.isPresent()) {
+            Item item = new Item();
+            item.setName(request.getName());
+            item.setQuantity(request.getQuantity());
+            item.setStatus(request.getStatus());
+            item.setShop(request.getShop());
+
+            return itemRepository.save(item);
+        }else{
+            item1.get().setQuantity(request.getQuantity());
+            item1.get().setStatus(request.getStatus());
+            item1.get().setShop(request.getShop());
+            return itemRepository.save(item1.get());
+        }
     }
 
     public Item getItemById(String Id){
