@@ -7,7 +7,6 @@ import com.Adinz.HomeEasyApp.exceptions.ProjectIDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     public Item saveOrUpdateItem(ItemRequest request){
-        Optional<Item> item1 = itemRepository.findByName(request.getName());
+        Optional<Item> item1 = itemRepository.findByNameAndPickupFalse(request.getName());
         if(!item1.isPresent()) {
             Item item = new Item();
             item.setName(request.getName());
@@ -46,8 +45,8 @@ public class ItemService {
 
     }
 
-    public Iterable<Item> findAllItem(){
-        return itemRepository.findByPickup(false);
+    public Iterable<Item> findAllItem(boolean b){
+        return itemRepository.findByPickup(b);
     }
 
     public void deleteItem(String Id){
@@ -75,7 +74,7 @@ public class ItemService {
         item1.setShop(request.getShop());
         if(request.isPickup()){
             item1.setPickup(true);
-            item1.setPickup_At(new Date());
+            item1.setPickupDate(new Date());
         }
         return itemRepository.save(item1);
 
@@ -91,8 +90,14 @@ public class ItemService {
     public void updateItems(List<Item> items) {
         for(Item item: items){
             item.setPickup(true);
+            item.setPickupDate(new Date());
             itemRepository.save(item);
         }
 
+    }
+
+    public List<Item> findByDateBetween(Date start, Date end) {
+        //itemRepository.findByPickUp_At()
+        return itemRepository.findByPickupDateBetween(start,end);
     }
 }

@@ -23,8 +23,10 @@ public class Item {
     private String status;
     private String shop;
     private boolean pickup = false;
+
     @JsonFormat(pattern = "yyyy-mm-dd")
-    private Date pickup_At;
+    private Date pickupDate;
+
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date created_At;
     @JsonFormat(pattern = "yyyy-mm-dd")

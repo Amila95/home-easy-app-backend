@@ -33,9 +33,18 @@ public class ItemController {
     private MapValidationErrorService mapValidationErrorService;
 
     @GetMapping
-    public Iterable<Item> getListItem(){
-        return itemService.findAllItem();
+    public Iterable<Item> getListItems(){
+            return itemService.findAllItem(false);
     }
+
+//    @GetMapping
+//    public Iterable<Item> getListItem(@RequestParam String reOder){
+//        if(reOder != null && reOder.equalsIgnoreCase("true")){
+//            return itemService.findAllItem(true);
+//        }else {
+//            return itemService.findAllItem(false);
+//        }
+//    }
 
 
     @PostMapping
