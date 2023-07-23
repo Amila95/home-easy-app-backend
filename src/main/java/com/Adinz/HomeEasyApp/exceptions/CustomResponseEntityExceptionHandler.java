@@ -29,4 +29,10 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         UsernameAlreadyExistsResponse usernameAlreadyExistsResponse = new UsernameAlreadyExistsResponse(ex.getMessage());
         return new ResponseEntity(usernameAlreadyExistsResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUsernameNotFoundException(InvalidLoginResponseException ex, WebRequest request){
+        InvalidLoginResponseException invalidLoginResponseException = new InvalidLoginResponseException();
+        return new ResponseEntity(invalidLoginResponseException, HttpStatus.BAD_REQUEST);
+    }
 }

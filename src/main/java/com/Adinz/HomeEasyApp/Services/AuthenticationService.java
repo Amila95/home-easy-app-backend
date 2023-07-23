@@ -6,11 +6,13 @@ import com.Adinz.HomeEasyApp.PalyLoad.AuthenticationRequest;
 import com.Adinz.HomeEasyApp.PalyLoad.AuthenticationResponse;
 import com.Adinz.HomeEasyApp.PalyLoad.RegisterRequest;
 import com.Adinz.HomeEasyApp.Repositories.UserRepository;
+import com.Adinz.HomeEasyApp.exceptions.InvalidLoginResponse;
 import com.Adinz.HomeEasyApp.exceptions.UsernameAlreadyExistsException;
 import com.Adinz.HomeEasyApp.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,10 @@ public class AuthenticationService {
     public AuthenticationResponse login(AuthenticationRequest request){
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
+        if(!passwordEncoder.matches(request.getPassword(),user.getPassword())){
+            throw new UsernameNotFoundException("");
+        }
+        System.out.println("password login:" + user.getPassword());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

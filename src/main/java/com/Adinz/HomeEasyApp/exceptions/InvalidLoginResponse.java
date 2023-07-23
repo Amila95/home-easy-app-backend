@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class InvalidLoginResponse {
+public class InvalidLoginResponse{
     private String username;
     private String password;
 
