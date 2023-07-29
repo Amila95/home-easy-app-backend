@@ -31,7 +31,7 @@ public class SecurityConfig  {
                 .disable()
                 .exceptionHandling().authenticationEntryPoint(unathorizedHandler).and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**","/welcome/**" )
+                .requestMatchers("/api/v1/auth/**","/welcome/**","/**" )
                     .permitAll()
                 .anyRequest()
                     .authenticated()
